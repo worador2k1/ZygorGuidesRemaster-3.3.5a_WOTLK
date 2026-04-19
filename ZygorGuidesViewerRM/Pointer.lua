@@ -187,6 +187,16 @@ function Pointer:RefreshWorldMapMarkers()
 	end
 end
 
+function Pointer:ShowWaypoints()
+	-- Refresh all waypoint visibility and positions when settings are modified
+	self:RefreshWorldMapMarkers()
+	
+	-- Force arrow refresh if currently active
+	if self.ArrowFrame and self.ArrowFrame.waypoint then
+		self:ShowArrow(self.ArrowFrame.waypoint)
+	end
+end
+
 function Pointer:ClearCarboniteMapTarget()
 	if not self.carbTargetId then return end
 	local Nx = _G.Nx
@@ -1933,8 +1943,8 @@ function Pointer.ArrowFrame_OnUpdate(self,elapsed)
 	arrow_throttle = 0
 	--]]
 
-	-- ✅ ALWAYS ON FIX:
-	-- Wenn ein Wegpunkt existiert, wird der Pfeil ERZWUNGEN angezeigt.
+	-- ALWAYS ON FIX:
+	-- Force arrow visibility when a waypoint exists
 	if self.waypoint and Pointer.ArrowEnabled then
 		self:SetParent(UIParent)
 		self:Show()
@@ -1951,9 +1961,9 @@ function Pointer.ArrowFrame_OnUpdate(self,elapsed)
 		self:Hide()
 		return
 	end
-	-- ✅ BUGFIX GEISTER HIDE ENTFERNT!
-	-- Der Pfeil wird NICHT MEHR automatisch versteckt wenn das Guide Fenster geschlossen ist!
-	-- Altes Verhalten entfernt: if profile.hidearrowwithguide and self.waypoint.type=="way" and not ZGV.Frame:IsVisible() then self:Hide() return end
+	-- BUGFIX: GHOST HIDE REMOVED
+	-- Arrow will NO LONGER automatically hide when guide window is closed
+	-- Removed legacy behavior: if profile.hidearrowwithguide and self.waypoint.type=="way" and not ZGV.Frame:IsVisible() then self:Hide() return end
 	--if GetCurrentMapContinentAndZone()~=self.waypoint.c then end
 
 	if IsInInstance() then self:Hide() return end
