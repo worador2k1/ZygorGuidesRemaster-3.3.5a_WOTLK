@@ -1058,7 +1058,16 @@ function Foglight:TurnOff()
 end
 
 local PreZygor_GetNumMapOverlays = GetNumMapOverlays
+local last_overlays_check = 0
+local cached_overlays_count = 0
+
 function GetNumMapOverlays()
+	local now = GetTime()
+	if now - last_overlays_check < 0.5 then
+		return cached_overlays_count
+	end
+	last_overlays_check = now
+	cached_overlays_count = PreZygor_GetNumMapOverlays()
 	if not ZGV.db.profile.foglight then return PreZygor_GetNumMapOverlays() end
 	local mapfile = GetMapInfo()
 	if not mapfile then return 0 end

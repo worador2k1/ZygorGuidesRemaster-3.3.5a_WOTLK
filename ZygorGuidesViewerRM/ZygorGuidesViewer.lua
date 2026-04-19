@@ -252,9 +252,11 @@ if not ZGV.UpdateCentral then
 	}
 	-- Create a frame that runs handlers each frame
 	local ucFrame = CreateFrame("Frame")
+	local handlers = ZGV.UpdateCentral.handlers
 	ucFrame:SetScript("OnUpdate", function()
-		for _, handler in ipairs(ZGV.UpdateCentral.handlers) do
-			handler()
+		local count = #handlers
+		for i=1, count do
+			handlers[i]()
 		end
 	end)
 end

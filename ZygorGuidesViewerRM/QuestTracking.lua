@@ -129,8 +129,7 @@ function me:QuestTracking_CacheQuestLog(force)
 	local iNumEntries = 50 -- WHAT EVER.
 
 	local oldquests=self.quests
-	--for qi,q in pairs(self.quests) do oldquests[qi]=q end
-	self.quests = {}
+	twipe(self.quests)
 
 	--local selected = GetQuestLogSelection()
 

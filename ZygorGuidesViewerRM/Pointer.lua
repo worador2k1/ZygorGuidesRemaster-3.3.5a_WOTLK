@@ -18,6 +18,24 @@ local scarlet_zone = 1
 
 
 local Astrolabe = DongleStub("Astrolabe-0.4-Zygor")
+
+-- Blizzard API Cache (Upvalues)
+local GetTime = _G.GetTime
+local GetPlayerFacing = _G.GetPlayerFacing
+local GetCurrentMapContinent = _G.GetCurrentMapContinent
+local GetCurrentMapZone = _G.GetCurrentMapZone
+local GetMouseFocus = _G.GetMouseFocus
+local GetCursorPosition = _G.GetCursorPosition
+local GetCorpseMapPosition = _G.GetCorpseMapPosition
+local GetMapContinents = _G.GetMapContinents
+local GetMapZones = _G.GetMapZones
+local SetMapZoom = _G.SetMapZoom
+local IsMouseButtonDown = _G.IsMouseButtonDown
+local IsShiftKeyDown = _G.IsShiftKeyDown
+local IsFlying = _G.IsFlying
+local UnitIsDeadOrGhost = _G.UnitIsDeadOrGhost
+local IsInInstance = _G.IsInInstance
+
 local function GetMinimapMarkerParent()
 	return UIParent or Minimap
 end
@@ -1907,6 +1925,7 @@ local laststoptime=lastbeeptime
 local lastmovetime=lastbeeptime
 
 function Pointer.ArrowFrame_OnUpdate(self,elapsed)
+	if not self:IsVisible() then return end
 
 	--[[
 	arrow_throttle = arrow_throttle + elapsed
