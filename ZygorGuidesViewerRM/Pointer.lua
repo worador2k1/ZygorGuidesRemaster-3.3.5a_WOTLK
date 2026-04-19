@@ -4,6 +4,17 @@ local ZGV=ZygorGuidesViewer
 local Pointer = {}
 ZGV.Pointer = Pointer
 
+-- API Forwarder für Abwärtskompatibilität und externe Aufrufe
+-- Alle Funktionen werden auf Pointer Objekt delegiert, da der alte Code überall ZGV:Method() aufruft
+
+function ZGV:ShowWaypoints() self.Pointer:ShowWaypoints() end
+function ZGV:ShowArrow(...) self.Pointer:ShowArrow(...) end
+function ZGV:HideArrow() self.Pointer:HideArrow() end
+function ZGV:SetWaypoint(...) return self.Pointer:SetWaypoint(...) end
+function ZGV:ClearWaypoints(...) return self.Pointer:ClearWaypoints(...) end
+function ZGV:RemoveWaypoint(...) self.Pointer:RemoveWaypoint(...) end
+function ZGV:RefreshWorldMapMarkers() self.Pointer:RefreshWorldMapMarkers() end
+
 local _G,assert,table,string,tinsert,tonumber,tostring,type,ipairs,pairs,setmetatable,math,wipe = _G,assert,table,string,tinsert,tonumber,tostring,type,ipairs,pairs,setmetatable,math,wipe
 
 local L=ZGV.L
