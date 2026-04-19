@@ -11,6 +11,7 @@ local L=ZGV.L
 Pointer.Debug = ZGV.Debug
 
 Pointer.waypoints = {}
+Pointer.ArrowEnabled = true
 
 
 local scarlet_cont = 5
@@ -1932,12 +1933,27 @@ function Pointer.ArrowFrame_OnUpdate(self,elapsed)
 	arrow_throttle = 0
 	--]]
 
-	if not self.waypoint then self:Hide() return end
+	-- ✅ ALWAYS ON FIX:
+	-- Wenn ein Wegpunkt existiert, wird der Pfeil ERZWUNGEN angezeigt.
+	if self.waypoint and Pointer.ArrowEnabled then
+		self:SetParent(UIParent)
+		self:Show()
+		self:SetAlpha(1)
+	end
+
+	if not self.waypoint then 
+		self:Hide() 
+		return 
+	end
 	
-	-- Early exit only if we are already hidden, skip expensive rendering math
-	if not self:IsVisible() then return end
-	if profile and profile.arrowshow==false then self:Hide() return end
-	if profile.hidearrowwithguide and self.waypoint.type=="way" and not ZGV.Frame:IsVisible() then self:Hide() return end
+	-- LOGIC runs ALWAYS
+	if profile and profile.arrowshow==false then
+		self:Hide()
+		return
+	end
+	-- ✅ BUGFIX GEISTER HIDE ENTFERNT!
+	-- Der Pfeil wird NICHT MEHR automatisch versteckt wenn das Guide Fenster geschlossen ist!
+	-- Altes Verhalten entfernt: if profile.hidearrowwithguide and self.waypoint.type=="way" and not ZGV.Frame:IsVisible() then self:Hide() return end
 	--if GetCurrentMapContinentAndZone()~=self.waypoint.c then end
 
 	if IsInInstance() then self:Hide() return end

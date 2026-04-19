@@ -1,4 +1,3 @@
-local ZGV = ZygorGuidesViewer
 if not (ZGV and ZGV.ItemScore) then return end
 
 local L = ZGV.L
@@ -124,8 +123,17 @@ function QuestItem:ShowQuestRewardGlow(index,selling)
 	self.GlowFrame.markerText:SetPoint("TOPRIGHT", self.GlowFrame, "TOPRIGHT", -5, -3)
 	self.GlowFrame.markerCoin:ClearAllPoints()
 	self.GlowFrame.markerCoin:SetPoint("TOPRIGHT", self.GlowFrame, "TOPRIGHT", -5, -4)
-	self.GlowFrame.markerText:SetShown(not selling)
-	self.GlowFrame.markerCoin:SetShown(selling)
+	if not selling then 
+		self.GlowFrame.markerText:Show() 
+	else 
+		self.GlowFrame.markerText:Hide() 
+	end
+
+	if selling then 
+		self.GlowFrame.markerCoin:Show() 
+	else 
+		self.GlowFrame.markerCoin:Hide() 
+	end
 	if not selling then
 		self.GlowFrame.markerText:SetText("+")
 	end

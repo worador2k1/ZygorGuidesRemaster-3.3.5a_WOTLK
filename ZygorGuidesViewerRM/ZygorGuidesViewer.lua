@@ -4316,9 +4316,9 @@ function me:TryToCompleteStep(force)
 		return
 	end
 
-	-- frame hidden? bail.
-	if not self.Frame:IsVisible() or self.Frame:GetAlpha()<0.1 then return end
-	--if InCombatLockdown() then return end
+	-- Hintergrund Logik IMMER ausführen, auch wenn Fenster versteckt ist
+	-- Nur das Rendern / UI Update wird bei verstecktem Fenster übersprungen
+	local frameVisible = self.Frame:IsVisible() and self.Frame:GetAlpha()>=0.1
 
 	--local skipped=0
 	--local updated
