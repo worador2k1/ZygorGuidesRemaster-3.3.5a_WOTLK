@@ -1925,8 +1925,6 @@ local laststoptime=lastbeeptime
 local lastmovetime=lastbeeptime
 
 function Pointer.ArrowFrame_OnUpdate(self,elapsed)
-	if not self:IsVisible() then return end
-
 	--[[
 	arrow_throttle = arrow_throttle + elapsed
 	if arrow_throttle < 0.05 then return end
@@ -1935,6 +1933,9 @@ function Pointer.ArrowFrame_OnUpdate(self,elapsed)
 	--]]
 
 	if not self.waypoint then self:Hide() return end
+	
+	-- Early exit only if we are already hidden, skip expensive rendering math
+	if not self:IsVisible() then return end
 	if profile and profile.arrowshow==false then self:Hide() return end
 	if profile.hidearrowwithguide and self.waypoint.type=="way" and not ZGV.Frame:IsVisible() then self:Hide() return end
 	--if GetCurrentMapContinentAndZone()~=self.waypoint.c then end
